@@ -1,22 +1,12 @@
-import SearchTodo from "@/components/search-todo";
-import { createClient } from "@/utils/supabase/server";
+import TodosWrapper from "@/components/todos-wrapper";
 import { InfoIcon } from "lucide-react";
-import { redirect } from "next/navigation";
+import { getAllTodos, getCurrentUser } from "./actions";
 
 export default async function ProtectedPage() {
-  const supabase = await createClient();
-  const {data: todos} = await supabase.from('todos').select();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/sign-in");
-  }
+  const [todos] = await Promise.all([ getAllTodos(), getCurrentUser()]);
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-12">
+    <div className="flex-1 w-full h-full flex flex-col gap-12">
       <div className="w-full">
         <div className="bg-accent text-sm p-3 px-5 rounded-md text-foreground flex gap-3 items-center">
           <InfoIcon size="16" strokeWidth={2} />
@@ -24,11 +14,7 @@ export default async function ProtectedPage() {
           user
         </div>
       </div>
-      <div className="flex flex-col gap-4 justify-center">
-        <div className="text-center text-xl">TODO LIST</div>
-        <SearchTodo/>
-        <pre>{JSON.stringify(todos, null, 2)}</pre>
-      </div>
+      <TodosWrapper todos={todos} />
     </div>
   );
 }

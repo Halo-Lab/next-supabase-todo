@@ -9,7 +9,7 @@ export interface InputProps
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type = "text", ...props }, ref) => {
+  ({ className, type = "text", value, ...props }, ref) => {
     return (
       <div className="relative w-full">
         <input
@@ -19,9 +19,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className,
           )}
           ref={ref}
+          value={value}
           {...props}
         />
-        {type === 'search' && <Search className="absolute right-4 top-1/2 h-5 w-5 text-primary transform -translate-y-1/2" />}
+        {type === 'search' && !value && <Search className="absolute right-4 top-1/2 h-5 w-5 text-primary transform -translate-y-1/2" />}
       </div>
     );
   },

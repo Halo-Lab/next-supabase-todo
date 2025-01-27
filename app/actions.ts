@@ -4,6 +4,8 @@ import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { TTodo } from "@/types/todo.type";
+import { revalidatePath } from "next/cache";
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
@@ -132,3 +134,81 @@ export const signOutAction = async () => {
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
+
+export const getCurrentUser = async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/sign-in");
+  }
+
+  return user;
+}
+
+export const getAllTodos = async () => {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from('todos').select();
+
+  if (error) {
+    console.error(error.message);
+    return [];
+  }
+
+  return data as TTodo[];
+}
+
+export const addTodo = async(title: string) => {
+  const supabase = await createClient();
+
+  if (!title.trim()) {
+    throw new Error("User ID and title are required to add a todo.");
+  }
+
+  const { data, error } = await supabase
+    .from("todos")
+    .insert([{ title: title.trim(), created_at: new Date().toISOString() }])
+    .select();
+
+  if (error) {
+    console.error("Error adding todo:", error.message);
+    throw new Error("Failed to add todo.");
+  }
+
+  revalidatePath("/");
+  return data[0] as TTodo;
+}
+
+export const updateTodo = async (todoId: string, payload: {is_completed?: boolean, title?: string}) => {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("todos")
+    .update(payload)
+    .eq("id", todoId);
+
+  if (error) {
+    console.error("Error updating status todo:", error.message);
+    throw new Error("Failed to updating status todo.");
+  }
+
+  revalidatePath("/");
+}
+
+export const deleteTodo = async (todoId: string) => { 
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("todos")
+    .delete()
+    .eq("id", todoId);
+
+  if (error) {
+    console.error("Error deleting todo:", error.message);
+    throw new Error("Failed to delete todo.");
+  }
+
+  revalidatePath("/");
+}

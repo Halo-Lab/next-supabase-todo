@@ -1,0 +1,1 @@
+export type TFilter = "Complete" | "Incomplete" | "All";
