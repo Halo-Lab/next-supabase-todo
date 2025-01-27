@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import { TTodo } from '@/types/todo.type';
 import { CircleCheck, CircleX, Pencil, Trash2 } from 'lucide-react';
-import { Checkbox } from './ui/checkbox';
-import { Input } from './ui/input';
+import { Checkbox } from '../ui/checkbox';
+import { Input } from '../ui/input';
 
 interface Properties {
   todo: TTodo;

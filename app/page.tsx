@@ -1,4 +1,4 @@
-import TodosWrapper from "@/components/todos-wrapper";
+import TodosWrapper from "@/components/todos/todos-wrapper";
 import { InfoIcon } from "lucide-react";
 import { getAllTodos, getCurrentUser } from "./actions";
 
@@ -10,8 +10,7 @@ export default async function ProtectedPage() {
       <div className="w-full">
         <div className="bg-accent text-sm p-3 px-5 rounded-md text-foreground flex gap-3 items-center">
           <InfoIcon size="16" strokeWidth={2} />
-          This is a protected page that you can only see as an authenticated
-          user
+          This is a protected page that you can only see as an authenticated user
         </div>
       </div>
       <TodosWrapper todos={todos} />
