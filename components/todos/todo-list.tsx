@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
 import Image from 'next/image';
+import { useState } from 'react';
 
-import { TTodo } from '@/types/todo.type'
-import EmptyTodos from '@/app/empty-todos.svg';
-import TodoItem from './todo-item';
 import { deleteTodo, updateTodo } from '@/app/actions';
+import EmptyTodos from '@/app/empty-todos.svg';
+import { TTodo } from '@/types/todo.type';
+import TodoItem from './todo-item';
 
 export default function TodoList({ todos, setTodos }: Readonly<{ todos: TTodo[], setTodos: React.Dispatch<React.SetStateAction<TTodo[]>> }>) {
   const [isEditing, setIsEditing] = useState<string | null>(null);

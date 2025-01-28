@@ -1,14 +1,14 @@
 'use client'
 
 import { CirclePlus } from 'lucide-react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { addTodo } from '@/app/actions'
 import { TTodo } from '@/types/todo.type'
-import Modal from './modal'
 import SearchTodo from '../search-todo'
-import TodoList from './todo-list'
 import { Button } from '../ui/button'
+import Modal from './modal'
+import TodoList from './todo-list'
 
 interface Properties {
   todos: TTodo[];

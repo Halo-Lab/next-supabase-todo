@@ -1,5 +1,6 @@
-import TodosWrapper from "@/components/todos/todos-wrapper";
 import { InfoIcon } from "lucide-react";
+
+import TodosWrapper from "@/components/todos/todos-wrapper";
 import { getAllTodos, getCurrentUser } from "./actions";
 
 export default async function ProtectedPage() {

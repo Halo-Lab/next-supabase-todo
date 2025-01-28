@@ -1,7 +1,8 @@
 'use client'
 
-import React, { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
+import { getAllTodos } from '@/app/actions'
 import { TFilter } from '@/types/filter-values-type'
 import { TTodo } from '@/types/todo.type'
 import { Button } from './ui/button'
@@ -13,7 +14,6 @@ import {
   DropdownMenuTrigger
 } from './ui/dropdown-menu'
 import { Input } from './ui/input'
-import { getAllTodos } from '@/app/actions'
 
 interface SearchTodoProps {
   todos: TTodo[];
