@@ -213,3 +213,16 @@ export const deleteTodo = async (todoId: string) => {
 
   revalidatePath("/");
 }
+
+export const uploadFile = async (file: File | null) => {
+  const supabase = await createClient();
+
+  if (!file) return;
+
+  const { data, error } = await supabase.storage
+    .from('images')
+    .upload(`public/${file.name}`, file);
+
+  if (error) console.error('Error uploading file:', error);
+  else console.log('Failed to upload file:', data);
+};
